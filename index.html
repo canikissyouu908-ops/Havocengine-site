@@ -1,1 +1,115 @@
 <html><body><h1>HAVOC ENGINE.AI</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAVOC ENGINE.AI</title>
+<style>
+    body {
+        background: #0d0d0d;
+        color: #00ffea;
+        font-family: 'Courier New', Courier, monospace;
+        padding: 20px;
+        margin: 0;
+        overflow-x: hidden;
+    }
+    .terminal {
+        border: 2px solid #00ffea;
+        padding: 20px;
+        max-width: 800px;
+        margin: 50px auto;
+        border-radius: 10px;
+        background: #111;
+        box-shadow: 0 0 20px #00ffea;
+    }
+    .terminal-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+    }
+    .red { background: #ff605c; }
+    .yellow { background: #ffbd44; }
+    .green { background: #00ca4e; }
+    .title {
+        flex: 1;
+        text-align: center;
+        font-weight: bold;
+        color: #00ffea;
+    }
+    .terminal-body {
+        white-space: pre-wrap;
+        line-height: 1.5em;
+    }
+    .typing {
+        display: inline;
+        border-right: 2px solid #00ffea;
+        animation: blink 0.7s infinite;
+    }
+    @keyframes blink {
+        0%,100% { border-color: #00ffea; }
+        50% { border-color: transparent; }
+    }
+</style>
+</head>
+<body>
+<div class="terminal">
+    <div class="terminal-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="title">Professor Xenox</span>
+    </div>
+    <pre class="terminal-body" id="terminal">
+Professor Xenox
+https://codepen.io/Canikiss-You-the-selector/pen/GgoGGYX
+
+*** NOTICE: This is a fictional performance. No systems are accessed. ***
+
+xen0x@show> initializing atmosphere... [████████░░] 78%
+xen0x@show> loading dramatic alerts...
+xen0x@show> activating anime visual protocols...
+xen0x@show> terminal cinematic mode: ONLINE
+<span class="typing"></span>
+    </pre>
+</div>
+
+<script>
+const text = [
+    "xen0x@show> welcome, operator.",
+    "xen0x@show> you have entered the HavocEngine.AI network...",
+    "xen0x@show> initializing protective systems...",
+    "xen0x@show> anime terminal effects ONLINE...",
+    "xen0x@show> enjoy the cinematic experience."
+];
+
+let i = 0;
+let char = 0;
+let speed = 50;
+const typingEl = document.querySelector(".typing");
+
+function typeWriter() {
+    if(i < text.length) {
+        if(char < text[i].length) {
+            typingEl.textContent += text[i].charAt(char);
+            char++;
+            setTimeout(typeWriter, speed);
+        } else {
+            typingEl.textContent += "\n";
+            i++;
+            char = 0;
+            setTimeout(typeWriter, speed);
+        }
+    }
+}
+typeWriter();
+</script>
+</body>
+</html>
