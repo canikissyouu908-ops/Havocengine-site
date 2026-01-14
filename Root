@@ -2,154 +2,180 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>HAVOC x Zero‑Day Defenders</title>
+<title>HAVOC x Zero-Day Defenders – Threat Watch Unit</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
-    font-family: "Courier New", monospace;
-    background:
-      linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.95)),
-      url("https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg");
-    background-size: cover;
-    background-position: center;
-    color:#00ff9c;
-    height:100vh;
-    overflow:hidden;
+  font-family:"Courier New",monospace;
+  background:
+    linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,.97)),
+    url("https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg");
+  background-size:cover;
+  background-position:center;
+  color:#00ff9c;
+  height:100vh;
+  overflow:hidden;
 }
 
-#lockScreen, #mainScreen{
-    position:absolute;
-    top:0;left:0;
-    width:100%;height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    text-align:center;
+/* shared */
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
 }
 
-#mainScreen{display:none;}
-
-.box{
-    background:rgba(0,0,0,.75);
-    border:2px solid #ff0033;
-    padding:25px;
-    max-width:720px;
-    width:90%;
-    box-shadow:0 0 30px #ff0033;
+/* ===== PHASE 1 : LOCK ===== */
+#lockScreen{
+  z-index:10;
 }
 
-h1{color:#ff0033;margin-bottom:15px}
-p{line-height:1.6;margin-bottom:15px}
+.lockBox{
+  border:2px solid #ff0022;
+  padding:28px;
+  background:rgba(0,0,0,.9);
+  box-shadow:0 0 50px #ff0022;
+  text-align:center;
+  max-width:340px;
+}
+
+.lockBox h1{
+  color:#ff0022;
+  margin-bottom:6px;
+}
 
 .fingerprint{
-    width:120px;
-    height:120px;
-    border:2px solid #00ff9c;
-    border-radius:50%;
-    margin:20px auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:40px;
-    cursor:pointer;
-    animation:pulse 1.5s infinite;
+  width:140px;
+  height:140px;
+  border:2px solid #00ff9c;
+  border-radius:50%;
+  margin:22px auto;
+  animation:pulse 1.1s infinite;
+  cursor:pointer;
 }
 
 @keyframes pulse{
-    0%{box-shadow:0 0 10px #00ff9c}
-    50%{box-shadow:0 0 30px #ff0033}
-    100%{box-shadow:0 0 10px #00ff9c}
+  0%{box-shadow:0 0 6px #00ff9c}
+  50%{box-shadow:0 0 40px #00ff9c}
+  100%{box-shadow:0 0 6px #00ff9c}
 }
 
-.typing{
-    white-space:pre-wrap;
-    border-right:2px solid #00ff9c;
-    animation:blink .7s infinite;
+.lockText{
+  font-size:13px;
+  color:#ff0022;
+}
+
+/* ===== PHASE 2 : TERMINAL ===== */
+#mainScreen{
+  display:none;
+  padding:20px;
+}
+
+.terminal{
+  border:2px solid #00ff9c;
+  background:#040404;
+  box-shadow:0 0 40px #00ff9c;
+  padding:20px;
+  max-width:920px;
+  width:100%;
+}
+
+pre{
+  white-space:pre-wrap;
+  line-height:1.6;
+}
+
+.cursor{
+  display:inline-block;
+  width:10px;
+  background:#00ff9c;
+  animation:blink .8s infinite;
 }
 
 @keyframes blink{
-    50%{border-color:transparent}
+  0%,100%{opacity:1}
+  50%{opacity:0}
 }
 
-.scan{
-    color:#ff4444;
-    margin-top:15px;
-    font-size:14px;
-}
+.red{color:#ff0022}
 </style>
 </head>
 
 <body>
 
-<!-- LOCK SCREEN -->
-<div id="lockScreen">
-    <div class="box">
-        <h1>ACCESS RESTRICTED</h1>
-        <p>
-        Unauthorized presence detected.<br>
-        Identity verification required.
-        </p>
+<!-- PHASE 1 -->
+<div id="lockScreen" class="screen">
+  <div class="lockBox">
+    <h1>HAVOC SYSTEM</h1>
+    <p>Zero-Day Defenders</p>
 
-        <div class="fingerprint" onclick="verify()">
-            🆔
-        </div>
+    <div class="fingerprint" onclick="unlock()"></div>
 
-        <p class="scan">
-        ▓▒░ Fingerprint required ░▒▓<br>
-        Scrolling & bypass DISABLED
-        </p>
+    <div class="lockText">
+      RESTRICTED ACCESS<br>
+      Every action is monitored
     </div>
+  </div>
 </div>
 
-<!-- MAIN SCREEN -->
-<div id="mainScreen">
-    <div class="box">
-        <h1>HAVOC x ZERO‑DAY DEFENDERS</h1>
-        <p><strong>Threat Watch Unit</strong></p>
-        <pre class="typing" id="terminal"></pre>
-    </div>
+<!-- PHASE 2 -->
+<div id="mainScreen" class="screen">
+  <div class="terminal">
+<pre id="terminal"></pre><span class="cursor"></span>
+  </div>
 </div>
-
-<audio id="alertSound">
-<source src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3">
-</audio>
 
 <script>
 const lines = [
-"x0d@havoc> fingerprint verified",
-"x0d@havoc> system access GRANTED",
-"x0d@havoc> monitoring active...",
-"x0d@havoc> fake system scan running...",
-"[WARNING] suspicious entities logged",
-"[NOTICE] this is an awareness platform",
-"x0d@havoc> stay alert. stay defensive."
+  "HAVOC SENTINEL INITIALIZING...",
+  "Loading Zero-Day Defenders modules...",
+  "Threat Watch Unit: ACTIVE",
+  "Region Control: BANGLADESH",
+  "",
+  "System Scan in progress...",
+  "[██████████░░░░░░░░░░] 42%",
+  "[████████████████░░░] 87%",
+  "[██████████████████] 100%",
+  "",
+  "⚠ WARNING ⚠",
+  "You are being observed.",
+  "",
+  "Scammers, blackmailers, intruders —",
+  "This platform is NOT for you.",
+  "",
+  "We don't forget.",
+  "We don't forgive.",
+  "",
+  "HAVOC x Zero-Day Defenders",
+  "Threat Watch Unit"
 ];
 
-let i=0,j=0;
-const speed=40;
-const terminal=document.getElementById("terminal");
+let l=0,c=0;
+const term=document.getElementById("terminal");
 
-function typeLine(){
-    if(i<lines.length){
-        if(j<lines[i].length){
-            terminal.textContent+=lines[i][j++];
-            setTimeout(typeLine,speed);
-        }else{
-            terminal.textContent+="\n";
-            i++; j=0;
-            setTimeout(typeLine,400);
-        }
+function type(){
+  if(l<lines.length){
+    if(c<lines[l].length){
+      term.innerHTML+=lines[l].charAt(c);
+      c++;
+      setTimeout(type,32);
+    }else{
+      term.innerHTML+="\n";
+      l++;c=0;
+      setTimeout(type,180);
     }
+  }
 }
 
-function verify(){
-    document.getElementById("alertSound").play();
-    document.getElementById("lockScreen").style.display="none";
-    document.getElementById("mainScreen").style.display="flex";
-    setTimeout(typeLine,500);
+function unlock(){
+  document.getElementById("lockScreen").style.display="none";
+  document.getElementById("mainScreen").style.display="flex";
+  type();
 }
 </script>
 
