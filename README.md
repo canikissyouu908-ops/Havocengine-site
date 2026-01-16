@@ -1,5 +1,4 @@
 # HAVOC x Zero‑Day Defenders
-## Threat Watch Unit
 🌐 [https://havocengine.site](https://havocengine.site)
 
 ---
