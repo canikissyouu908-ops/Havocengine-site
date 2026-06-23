@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HAVOC x Zero-Day Defenders – Threat Watch Unit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:"Courier New",monospace;
+  background:
+    linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,.97)),
+    url("https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg");
+  background-size:cover;
+  background-position:center;
+  color:#00ff9c;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* shared */
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+
+/* ===== PHASE 1 : LOCK ===== */
+#lockScreen{
+  z-index:10;
+}
+
+.lockBox{
+  border:2px solid #ff0022;
+  padding:28px;
+  background:rgba(0,0,0,.9);
+  box-shadow:0 0 50px #ff0022;
+  text-align:center;
+  max-width:340px;
+}
+
+.lockBox h1{
+  color:#ff0022;
+  margin-bottom:6px;
+}
+
+.fingerprint{
+  width:140px;
+  height:140px;
+  border:2px solid #00ff9c;
+  border-radius:50%;
+  margin:22px auto;
+  animation:pulse 1.1s infinite;
+  cursor:pointer;
+}
+
+@keyframes pulse{
+  0%{box-shadow:0 0 6px #00ff9c}
+  50%{box-shadow:0 0 40px #00ff9c}
+  100%{box-shadow:0 0 6px #00ff9c}
+}
+
+.lockText{
+  font-size:13px;
+  color:#ff0022;
+}
+
+/* ===== PHASE 2 : TERMINAL ===== */
+#mainScreen{
+  display:none;
+  padding:20px;
+}
+
+.terminal{
+  border:2px solid #00ff9c;
+  background:#040404;
+  box-shadow:0 0 40px #00ff9c;
+  padding:20px;
+  max-width:920px;
+  width:100%;
+}
+
+pre{
+  white-space:pre-wrap;
+  line-height:1.6;
+}
+
+.cursor{
+  display:inline-block;
+  width:10px;
+  background:#00ff9c;
+  animation:blink .8s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:0}
+}
+
+.red{color:#ff0022}
+</style>
+</head>
+
+<body>
+
+<!-- PHASE 1 -->
+<div id="lockScreen" class="screen">
+  <div class="lockBox">
+    <h1>HAVOC SYSTEM</h1>
+    <p>Zero-Day Defenders</p>
+
+    <div class="fingerprint" onclick="unlock()"></div>
+
+    <div class="lockText">
+      RESTRICTED ACCESS<br>
+      Every action is monitored
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div id="mainScreen" class="screen">
+  <div class="terminal">
+<pre id="terminal"></pre><span class="cursor"></span>
+  </div>
+</div>
+
+<script>
+const lines = [
+  "HAVOC SENTINEL INITIALIZING...",
+  "Loading Zero-Day Defenders modules...",
+  "Threat Watch Unit: ACTIVE",
+  "Region Control: BANGLADESH",
+  "",
+  "System Scan in progress...",
+  "[██████████░░░░░░░░░░] 42%",
+  "[████████████████░░░] 87%",
+  "[██████████████████] 100%",
+  "",
+  "⚠ WARNING ⚠",
+  "You are being observed.",
+  "",
+  "Scammers, blackmailers, intruders —",
+  "This platform is NOT for you.",
+  "",
+  "We don't forget.",
+  "We don't forgive.",
+  "",
+  "HAVOC x Zero-Day Defenders",
+  "Threat Watch Unit"
+];
+
+let l=0,c=0;
+const term=document.getElementById("terminal");
+
+function type(){
+  if(l<lines.length){
+    if(c<lines[l].length){
+      term.innerHTML+=lines[l].charAt(c);
+      c++;
+      setTimeout(type,32);
+    }else{
+      term.innerHTML+="\n";
+      l++;c=0;
+      setTimeout(type,180);
+    }
+  }
+}
+
+function unlock(){
+  document.getElementById("lockScreen").style.display="none";
+  document.getElementById("mainScreen").style.display="flex";
+  type();
+}
+</script>
+
+</body>
+</html>
+
+
+Be ready for the consequences⚔️☠.
